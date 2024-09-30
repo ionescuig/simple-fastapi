@@ -1,0 +1,21 @@
+version: '3.8'
+
+networks:
+  shiny:
+
+services:
+  quarto-shiny-app:
+    build:
+      context: .
+      target: prod
+    entrypoint: /entrypoint
+    environment:
+      - ENV=prod
+      - DEMO=$DEMO
+    ports:
+      - "3838:8000"
+    volumes:
+      - .:/app
+    container_name: quarto_shiny_app
+    networks:
+      - shiny

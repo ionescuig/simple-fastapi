@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  simple_fastapi:
+    image: simple_fastapi
+    container_name: simple_fastapi
+    depends_on:
+      - postgres
+    build:
+      context: .
+      target: dev
+    entrypoint: /app/entrypoint
+    environment:
+      - ENV=dev
+    env_file:
+      - ./.env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/app/src
+
+  postgres:
+    image: postgres:17
+    container_name: postgres
+    env_file:
+      - ./.env
+    # environment:
+    #   - POSTGRES_DB=${POSTGRES_DB}
+    #   - POSTGRES_USER=${POSTGRES_USER}
+    #   - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - postgres_data_backups:/backups
+
+# Add volume for persistent PostgreSQL data
+volumes:
+  postgres_data: {}
+  postgres_data_backups: {}
