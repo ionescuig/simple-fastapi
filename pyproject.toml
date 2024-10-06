@@ -19,3 +19,59 @@ ruff = "^0.6.5"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+src = ["src"]
+line-length = 99
+exclude = ["tests", "conftest.py"]
+lint.select = [
+    # ----- Linters -----
+    # "ANN",  # flake8-annotations              # check if acceptable
+    "B",    # flake8-bugbear
+    "BLE",  # flake8-blind-except
+    "COM",  # flake8-commas
+    "D",    # pydocstyle
+    "E",    # pycodestyle
+    "F",    # Pyflakes
+#     "I",    # isort  # removed for now as it not respect all isort rules
+    "PL",   # Pylint
+    "PGH",  # pygrep-hooks
+    "PT",   # flake8-pytest-style
+    "Q",    # flake8-quotes
+    "RSE",  # flake8-raise
+    "SIM",  # flake8-simplify
+    "UP",   # pyupgrade
+    "W",    # pycodestyle
+    "TID",  # flake8-tidy-imports
+    # ----- Rules -----
+    "C40",      # unnecessary-literal-set
+    "S105",     # hardcoded-password-string
+    "RET504",   # unnecessary-assign
+]
+lint.ignore = [
+    "D100",     # public-module: Missing docstring in public module
+    "D106",     # public-module: Missing docstring in public nested class
+    "F821",     # undefined-name
+]
+target-version = "py312"
+
+[tool.ruff.lint.per-file-ignores]
+"models.py" = ["D101", "D102", "D105", "D106", "D107"]
+"**/schema/**/*.py" = ["D101", "D102", "D105", "D106"]
+"schema.py" = ["D101", "D102", "D105", "D106"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.isort]
+src_paths = ["src"]
+extend_skip_glob = ["*/__init__.py"]
+profile = "black"
+force_grid_wrap = 0
+use_parentheses = true
+combine_as_imports = true
+include_trailing_comma = true
+line_length = 99
+multi_line_output = 3
+# default_section = "THIRDPARTY"
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
