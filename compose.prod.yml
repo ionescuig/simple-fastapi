@@ -1,21 +1,39 @@
-version: '3.8'
-
-networks:
-  shiny:
+version: "3.8"
 
 services:
-  quarto-shiny-app:
+  simple_fastapi:
+    image: simple_fastapi
+    container_name: simple_fastapi
+    depends_on:
+      - postgres
     build:
       context: .
       target: prod
-    entrypoint: /entrypoint
     environment:
       - ENV=prod
-      - DEMO=$DEMO
+    env_file:
+      - ./.env
     ports:
-      - "3838:8000"
+      - "8000:8000"
     volumes:
-      - .:/app
-    container_name: quarto_shiny_app
-    networks:
-      - shiny
+      - ./src:/app/src
+
+  postgres:
+    image: postgres:17
+    container_name: postgres
+    env_file:
+      - ./.env
+    # environment:
+    #   - POSTGRES_DB=${POSTGRES_DB}
+    #   - POSTGRES_USER=${POSTGRES_USER}
+    #   - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - postgres_data_backups:/backups
+
+# Add volume for persistent PostgreSQL data
+volumes:
+  postgres_data: {}
+  postgres_data_backups: {}

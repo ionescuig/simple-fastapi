@@ -1,0 +1,22 @@
+{
+  "python.defaultInterpreterPath": ".venv/bin/python",
+  "editor.rulers": [
+    {
+      "column": 79,
+      "color": "#404040"
+    },
+    {
+      "column": 99,
+      "color": "#990000"
+    }
+  ],
+  "editor.formatOnSave": true,
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    },
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "python.analysis.extraPaths": ["./src"],
+  "files.trimTrailingWhitespace": true
+}

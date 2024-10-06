@@ -14,11 +14,14 @@ RUN pip install --no-cache-dir poetry==${POETRY_VERSION} uvicorn[standard]
 FROM base AS dev
 COPY pyproject.toml poetry.lock ${WORKDIR}
 RUN poetry install --no-ansi
-COPY . ${WORKDIR}/app/
-
+COPY ./src ${WORKDIR}/app/
+COPY entrypoint ${WORKDIR}/entrypoint
+ENTRYPOINT ["/entrypoint"]
 
 # ------------ Prod environment ------------
 FROM base AS prod
 COPY pyproject.toml poetry.lock ${APP_HOME}
 RUN poetry install --no-ansi --without dev
-COPY . ${WORKDIR}/app/
+COPY ./src ${WORKDIR}/app/
+COPY entrypoint ${WORKDIR}/entrypoint
+ENTRYPOINT ["/entrypoint"]

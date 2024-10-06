@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   simple_fastapi:
@@ -9,7 +9,6 @@ services:
     build:
       context: .
       target: dev
-    entrypoint: /app/entrypoint
     environment:
       - ENV=dev
     env_file:
