@@ -1,4 +1,6 @@
 # ruff: noqa: B008 - function-call-in-default-argument
+from uuid import UUID
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -34,8 +36,10 @@ async def create_user(
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e)) from e
 
 
-# @router.get("/{uuid}")
-# async def get_user(uuid: UUID):
-#     """Get all users."""
-#     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
-#     # return [{"username": "Rick"}, {"username": "Morty"}]
+@router.get("/{uuid}", response_model=UserSchema)
+async def get_user(uuid: UUID, session: AsyncSession = Depends(get_session)):
+    """Get a user by UUID."""
+    user = await session.get(User, uuid)
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    return user
