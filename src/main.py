@@ -1,16 +1,20 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, status
 from fastapi.responses import RedirectResponse
 
 from settings.database import init_db
 from users import router as users
 
-app = FastAPI()
 
-
-@app.on_event("startup")
-async def startup_event():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     """Initialize the database."""
     await init_db()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 @app.get("/", include_in_schema=False)

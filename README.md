@@ -6,7 +6,6 @@ _*Work In Progress*_
 
 ### Next steps:
 
-- Fix deprecated: startup_event
 - Fix Ruff errors B008: Depends
 - Move orm interactions into services
 - Investigate why the app reloads but the changes are not applied
