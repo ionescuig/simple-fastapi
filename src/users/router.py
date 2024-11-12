@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from settings.database import get_session
 from users.models import User
-from users.schema import UserSchema
+from users.schema import UserCreateSchema, UserSchema
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -19,7 +19,7 @@ async def get_all_users(session: AsyncSession = Depends(get_session)):
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=UserSchema)
 async def create_user(
-    user: UserSchema,
+    user: UserCreateSchema,
     session: AsyncSession = Depends(get_session),
 ):
     """Create a new user."""
@@ -28,7 +28,7 @@ async def create_user(
         session.add(new_user)
         await session.commit()
         await session.refresh(new_user)
-        return user
+        return new_user
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e)) from e
 
