@@ -6,15 +6,20 @@ from pydantic import BaseModel, EmailStr
 class UserCreateSchema(BaseModel):
     username: str
     email: EmailStr
-    full_name: str
+    first_name: str
+    last_name: str
     password: str
 
     class Config:
         orm_mode = True
 
 
-class UserSchema(UserCreateSchema):
+class UserSchema(BaseModel):
     id: UUID | None = None
+    username: str
+    email: EmailStr
+    first_name: str
+    last_name: str
 
     class Config:
         orm_mode = True
