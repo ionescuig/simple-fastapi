@@ -12,7 +12,6 @@ _*Work In Progress*_
 ### Later:
 
 - Separate schemas
-- Use uuid instead of int for id
 - Add missing CRUD operations
 - Investigate and add migrations
 - Investigate multiple status codes for the same endpoint
