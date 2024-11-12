@@ -1,3 +1,4 @@
+# ruff: noqa: B008 - function-call-in-default-argument
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -10,7 +11,7 @@ router = APIRouter(prefix="/users", tags=["users"])
 
 
 @router.get("/", response_model=list[UserSchema])
-async def get_all_users(session: AsyncSession = Depends(get_session)):  # noqa: B008
+async def get_all_users(session: AsyncSession = Depends(get_session)):
     """Get all users."""
     result = await session.execute(select(User))
     return result.scalars().all()
@@ -19,7 +20,7 @@ async def get_all_users(session: AsyncSession = Depends(get_session)):  # noqa: 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=UserSchema)
 async def create_user(
     user: UserSchema,
-    session: AsyncSession = Depends(get_session),  # noqa: B008
+    session: AsyncSession = Depends(get_session),
 ):
     """Create a new user."""
     try:
